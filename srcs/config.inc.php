@@ -1,5 +1,5 @@
 <?php
-$cfg['blowfish_secret'] = 'qwertyuiop';
+$cfg['blowfish_secret'] = 'qwertyuiopasdfghjklzxcvbnm1234567890';
 
 /**
  * Servers configuration
