@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Dockerfile                                         :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: obritany <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/03/22 13:44:12 by obritany          #+#    #+#              #
+#    Updated: 2021/03/22 13:44:23 by obritany         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 FROM debian:buster
 
 RUN apt-get update
@@ -10,10 +22,13 @@ RUN apt-get -y install php7.3 php-mysql php-fpm php-pdo php-gd php-cli php-mbstr
 RUN apt-get -y install vim
 
 # Setup nginx
-COPY ./srcs/nginx.conf /etc/nginx/sites-available/localhost
-RUN ln -s /etc/nginx/sites-available/localhost /etc/nginx/sites-enabled/
+COPY ./srcs/nginx_available /etc/nginx/sites-available
+RUN ln -s /etc/nginx/sites-available/nginx_available /etc/nginx/sites-enabled/
 RUN rm /etc/nginx/sites-enabled/default
 RUN rm /etc/nginx/sites-available/default
+
+COPY ./srcs/myindex.nginx-debian.html /var/www/html
+RUN rm /var/www/html/index.nginx-debian.html
 
 WORKDIR /var/www/html/
 
@@ -35,4 +50,5 @@ RUN chmod -R 755 /var/www/*
 
 WORKDIR /
 COPY ./srcs/init.sh ./
+COPY ./srcs/autoindex.sh ./
 CMD bash init.sh
